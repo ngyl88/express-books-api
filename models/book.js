@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 // CREATE SCHEMA
 const schema = mongoose.Schema({
     title: String,
-    author: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Author'
+    },
 });
 
 // CREATE MODEL FROM SCHEMA

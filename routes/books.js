@@ -6,19 +6,19 @@ const Book = require("../models/book");
 
 /* GET books listing. */
 router.get("/", async (req, res, next) => {
-  const books = await Book.find();
+  const books = await Book.find().populate('author');
   res.json(books);
 });
 
 router.get("/:id", async (req, res, next) => {
-  const book = await Book.findById(req.params.id);
+  const book = await Book.findById(req.params.id).populate('author');
   book === null ? next() : res.json(book);
 });
 
 router.post("/", async (req, res, next) => {
   const newBook = new Book({
     title: req.body.title,
-    author: req.body.author
+    author: req.body.authorId
   });
 
   const result = await newBook.save();
