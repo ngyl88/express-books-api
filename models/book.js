@@ -1,11 +1,22 @@
 const mongoose = require('mongoose');
+const Author = require('./author');
 
 // CREATE SCHEMA
 const schema = mongoose.Schema({
-    title: String,
+    title: {
+        type: String,
+        required: true
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Author'
+        ref: 'Author',
+        validate: {
+            validator: function(authorId) {
+                console.log(`${authorId} is ${Author.findById(authorId)}`);
+                return Author.findById(authorId)
+            }, 
+            message: '{VALUE} is not a valid authorId' 
+        }
     },
 });
 

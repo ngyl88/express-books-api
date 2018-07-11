@@ -6,28 +6,33 @@ const Book = require("../models/book");
 
 /* GET books listing. */
 router.get("/", async (req, res, next) => {
-  const books = await Book.find().populate('author');
+  const books = await Book.find().populate("author");
   res.json(books);
 });
 
 router.get("/:id", async (req, res, next) => {
-  const book = await Book.findById(req.params.id).populate('author');
+  const book = await Book.findById(req.params.id).populate("author");
   book === null ? next() : res.json(book);
 });
 
+/* POST book */
 router.post("/", async (req, res, next) => {
-  const newBook = new Book({
-    title: req.body.title,
-    author: req.body.authorId
-  });
+  try {
+    const newBook = new Book({
+      title: req.body.title,
+      author: req.body.authorId
+    });
 
-  const result = await newBook.save();
-
-  res
-    .status(201)
-    .json({ message: `created new book successfully with id ${result._id}` });
+    const result = await newBook.save();
+    res
+      .status(201)
+      .json({ message: `created new book successfully with id ${result._id}` });
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
 });
 
+/* PUT book */
 router.put("/:id", async (req, res, next) => {
   const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body);
   updatedBook === null
@@ -35,6 +40,7 @@ router.put("/:id", async (req, res, next) => {
     : res.json({ message: `updated book with id ${req.params.id}` });
 });
 
+/* DELETE book */
 router.delete("/:id", async (req, res, next) => {
   const bookToDelete = await Book.findByIdAndDelete(req.params.id);
   bookToDelete === null
