@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const { ValidationError } = require('mongoose').Error;
+
 // MODEL
 const Book = require("../models/book");
 
@@ -28,7 +30,12 @@ router.post("/", async (req, res, next) => {
       .status(201)
       .json({ message: `created new book successfully with id ${result._id}` });
   } catch (error) {
-    res.status(400).json(error.message);
+    if(error instanceof ValidationError) {
+      res.status(400).json(error.message);
+    } else {
+      console.error("Error in post book!", error);
+      next(error);
+    }
   }
 });
 

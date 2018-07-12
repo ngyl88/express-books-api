@@ -12,7 +12,6 @@ const schema = mongoose.Schema({
         ref: 'Author',
         validate: {
             validator: function(authorId) {
-                console.log(`${authorId} is ${Author.findById(authorId)}`);
                 return Author.findById(authorId)
             }, 
             message: '{VALUE} is not a valid authorId' 
