@@ -7,10 +7,10 @@ const Book = require("../models/book");
 
 /* GET author */
 router.get("/", async (req, res, next) => {
-  // const authors = await Author.find();
+  const authors = await Author.find();
   res.json({
     message: "List of authors retrieved successfully",
-    //authors: authors
+    authors: authors
   });
 });
 router.get("/:id", async (req, res, next) => {
