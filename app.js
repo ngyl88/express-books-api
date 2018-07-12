@@ -24,6 +24,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", index);
 app.use("/books", books);
-app.use("/authors", authors);
+authors(app);
 
 module.exports = app;

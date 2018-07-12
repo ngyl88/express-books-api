@@ -7,16 +7,16 @@ const Book = require("../models/book");
 
 /* GET author */
 router.get("/", async (req, res, next) => {
-  const authors = await Author.find();
+  // const authors = await Author.find();
   res.json({
     message: "List of authors retrieved successfully",
-    authors: authors
+    //authors: authors
   });
 });
 router.get("/:id", async (req, res, next) => {
   try {
     const author = await Author.findById(req.params.id);
-    if(author) {
+    if (author) {
       const books = await Book.find({ author: req.params.id });
       res.json({
         ...author.toJSON(),
@@ -72,4 +72,6 @@ router.use((req, res) => {
   res.status(404).json({ message: `Not Found!` });
 });
 
-module.exports = router;
+module.exports = app => {
+  app.use("/authors", router);
+};
