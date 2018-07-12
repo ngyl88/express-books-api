@@ -1,7 +1,9 @@
+const { ValidationError } = require('mongoose').Error;
+
 const express = require("express");
 const router = express.Router();
-
-const { ValidationError } = require('mongoose').Error;
+// For POST request
+router.use(express.json());
 
 // MODEL
 const Book = require("../models/book");
@@ -60,4 +62,6 @@ router.use((req, res) => {
   res.status(404).json({ message: `Book with id ${req.path} Not Found!` });
 });
 
-module.exports = router;
+module.exports = app => {
+  app.use("/books", router);
+};

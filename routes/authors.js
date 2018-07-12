@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+router.use(express.json());   // for POST request
 
 // MODEL
 const Author = require("../models/author");
@@ -37,7 +38,7 @@ router.post("/", async (req, res, next) => {
       name: req.body.name,
       age: req.body.age
     });
-
+    
     const result = await newAuthor.save();
     res.status(201).json({
       message: `created new author successfully with id ${result._id}`
@@ -56,10 +57,10 @@ router.put("/:id", async (req, res, next) => {
       req.body
     );
     updatedAuthor === null
-      ? next()
-      : res.json({
-          message: `updated author with id ${req.params.id}`
-        });
+    ? next()
+    : res.json({
+      message: `updated author with id ${req.params.id}`
+    });
   } catch (error) {
     console.error("Error in put author!", error);
     res.status(400).json({
