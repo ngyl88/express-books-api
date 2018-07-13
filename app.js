@@ -9,7 +9,8 @@ const books = require("./routes/books");
 const authors = require("./routes/authors");
 
 // DATABASE
-mongoose.connect("mongodb://localhost/jumpstart");
+const dbURI = process.env.MONGODB_URI || "mongodb://localhost/jumpstart";
+mongoose.connect(dbURI);
 const db = mongoose.connection;
 db.on("error", error =>
   console.error("An error occured in DB connection!", error)
