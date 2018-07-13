@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 
 const express = require("express");
@@ -9,8 +10,9 @@ const books = require("./routes/books");
 const authors = require("./routes/authors");
 
 // DATABASE
-const dbURI = process.env.MONGODB_URI || "mongodb://localhost/jumpstart";
-mongoose.connect(dbURI);
+mongoose.connect(process.env.MONGODB_URI);
+// const dbURI = process.env.MONGODB_URI || "mongodb://localhost/jumpstart";
+// mongoose.connect(dbURI);
 const db = mongoose.connection;
 db.on("error", error =>
   console.error("An error occured in DB connection!", error)
