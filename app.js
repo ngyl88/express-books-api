@@ -14,7 +14,10 @@ const authors = require("./routes/authors");
 const users = require("./routes/users");
 
 // DATABASE
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(
+  process.env.MONGODB_URI,
+  { useNewUrlParser: true }
+);
 
 const db = mongoose.connection;
 db.on("error", error =>
