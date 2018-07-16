@@ -30,12 +30,16 @@ const app = express();
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// app.use(passport.initialize());
 app.use("/", index);
 
 app.get(
   "/secret",
   passport.authenticate("jwt", { session: false }),
   (req, res, next) => {
+    console.log('Handling secret (session)', req.session);
+    console.log('Handling secret (passport)', req.passport);
+    console.log('Handling secret (user)', req.user);
     res.json("You see the secret");
   }
 );
