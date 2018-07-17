@@ -1,8 +1,9 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const { ValidationError } = mongoose.Error;
 
 const passport = require("./config/passport");
+
+const { handler400, handler401, handler500 } = require('./middleware/error');
 
 const express = require("express");
 const logger = require("morgan");
@@ -45,13 +46,8 @@ books(app);
 authors(app);
 users(app);
 
-app.use((err, req, res, next) => {
-  console.log(err);
-  if (err instanceof ValidationError) {
-    res.status(400).json(err.message);
-  } else {
-    next(err);
-  }
-});
+app.use(handler401);
+app.use(handler400);
+app.use(handler500);
 
 module.exports = app;
