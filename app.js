@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const { ValidationError } = mongoose.Error;
 
-const { passport } = require("./config/passport");
+const passport = require("./config/passport");
 
 const express = require("express");
 const logger = require("morgan");
@@ -35,11 +35,8 @@ app.use("/", index);
 
 app.get(
   "/secret",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate,
   (req, res, next) => {
-    console.log('Handling secret (session)', req.session);
-    console.log('Handling secret (passport)', req.passport);
-    console.log('Handling secret (user)', req.user);
     res.json("You see the secret");
   }
 );
@@ -49,6 +46,7 @@ authors(app);
 users(app);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   if (err instanceof ValidationError) {
     res.status(400).json(err.message);
   } else {

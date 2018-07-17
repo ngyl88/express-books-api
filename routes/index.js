@@ -6,7 +6,7 @@ const { jwtOptions } = require("../config/passport");
 const router = express.Router();
 router.use(express.json());
 
-const User = require('../models/user');
+const User = require("../models/user");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
@@ -38,7 +38,10 @@ router.post("/signin", async (req, res, next) => {
 
   if (user.isValidPassword(password)) {
     const userId = { id: user.id };
-    const token = jwt.sign(userId, jwtOptions.secretOrKey);
+    // synchronous call
+    const token = jwt.sign(userId, jwtOptions.secretOrKey, {
+      expiresIn: "1m"
+    });
     res.json({ message: "signin ok", token: token });
   } else {
     res.status(401).json({ message: "passwords did not match" });
